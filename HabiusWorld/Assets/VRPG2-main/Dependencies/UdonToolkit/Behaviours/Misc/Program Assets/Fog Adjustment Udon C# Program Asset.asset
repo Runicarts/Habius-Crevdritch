@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: Fog Adjustment Udon C# Program Asset
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 99aee0eb0b2f9474991310f846b0bbd4,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: f4774eb52f72a9f439589dae62dd73e8,
     type: 2}
   udonAssembly: 
   assemblyError: 
