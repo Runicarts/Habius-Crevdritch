@@ -1,0 +1,200 @@
+﻿using UnityEngine;
+using System;
+
+#if UDONSHARP
+using VRC.SDKBase;
+using UdonSharp;
+#else
+using VRCShader = UnityEngine.Shader;
+#endif
+
+namespace VRCLightVolumes {
+#if UDONSHARP
+    [UdonBehaviourSyncMode(BehaviourSyncMode.None)]
+    public class LightVolumeManager : UdonSharpBehaviour
+#else
+    public class LightVolumeManager : MonoBehaviour
+#endif
+    {
+
+        [Tooltip("Combined Texture3D containing all Light Volumes' textures.")]
+        public Texture3D LightVolumeAtlas;
+        [Tooltip("When enabled, areas outside Light Volumes fall back to light probes. Otherwise, the Light Volume with the smallest weight is used as fallback. It also improves performance.")]
+        public bool LightProbesBlending = true;
+        [Tooltip("Disables smooth blending with areas outside Light Volumes. Use it if your entire scene's play area is covered by Light Volumes. It also improves performance.")]
+        public bool SharpBounds = true;
+        [Tooltip("Automatically updates a volume's position, rotation, and scale in Play mode using an Udon script. Use only if you have movable volumes in your scene.")]
+        public bool AutoUpdateVolumes = false;
+        [Tooltip("Limits the maximum number of additive volumes that can affect a single pixel. If you have many dynamic additive volumes that may overlap, it's good practice to limit overdraw to maintain performance.")]
+        public int AdditiveMaxOverdraw = 4;
+        [Tooltip("All Light Volume instances sorted in decreasing order by weight. You can enable or disable volumes game objects at runtime. Manually disabling unnecessary volumes improves performance.")]
+        public LightVolumeInstance[] LightVolumeInstances = new LightVolumeInstance[0];
+        private bool _isInitialized = false;
+
+        // Actually enabled Volumes
+        private int _enabledCount = 0;
+        private int[] _enabledIDs = new int[32];
+        private Vector4[] _invLocalEdgeSmooth = new Vector4[0];
+        private Matrix4x4[] _invWorldMatrix = new Matrix4x4[0];
+        private Vector4[] _boundsUvw = new Vector4[0];
+        private Vector4[] _relativeRotations = new Vector4[0];
+        private Vector4[] _colors = new Vector4[0];
+        private int _additiveCount = 0;
+        private Vector4[] _bounds = new Vector4[6];
+
+        private int lightVolumeInvLocalEdgeSmoothID;
+        private int lightVolumeInvWorldMatrixID;
+        private int lightVolumeUvwID;
+        private int lightVolumeColorID;
+        private int lightVolumeRotationID;
+        private int lightVolumeCountID;
+        private int lightVolumeAdditiveCountID;
+        private int lightVolumeAdditiveMaxOverdrawID;
+        private int lightVolumeEnabledID;
+        private int lightVolumeProbesBlendID;
+        private int lightVolumeSharpBoundsID;
+        private int lightVolumeID;
+
+        // Initializing gloabal shader arrays if needed 
+        private void TryInitialize() {
+
+#if !UNITY_EDITOR
+            if (_isInitialized) return;
+#endif
+
+            lightVolumeInvLocalEdgeSmoothID = VRCShader.PropertyToID("_UdonLightVolumeInvLocalEdgeSmooth");
+            lightVolumeInvWorldMatrixID = VRCShader.PropertyToID("_UdonLightVolumeInvWorldMatrix");
+            lightVolumeUvwID = VRCShader.PropertyToID("_UdonLightVolumeUvw");
+            lightVolumeColorID = VRCShader.PropertyToID("_UdonLightVolumeColor");
+            lightVolumeRotationID = VRCShader.PropertyToID("_UdonLightVolumeRotation");
+            lightVolumeCountID = VRCShader.PropertyToID("_UdonLightVolumeCount");
+            lightVolumeAdditiveCountID = VRCShader.PropertyToID("_UdonLightVolumeAdditiveCount");
+            lightVolumeAdditiveMaxOverdrawID = VRCShader.PropertyToID("_UdonLightVolumeAdditiveMaxOverdraw");
+            lightVolumeEnabledID = VRCShader.PropertyToID("_UdonLightVolumeEnabled");
+            lightVolumeProbesBlendID = VRCShader.PropertyToID("_UdonLightVolumeProbesBlend");
+            lightVolumeSharpBoundsID = VRCShader.PropertyToID("_UdonLightVolumeSharpBounds");
+            lightVolumeID = VRCShader.PropertyToID("_UdonLightVolume");
+
+#if UNITY_EDITOR
+            if (_isInitialized) return;
+#endif
+
+            VRCShader.SetGlobalVectorArray(lightVolumeInvLocalEdgeSmoothID, new Vector4[32]);
+            VRCShader.SetGlobalMatrixArray(lightVolumeInvWorldMatrixID, new Matrix4x4[32]);
+            VRCShader.SetGlobalVectorArray(lightVolumeRotationID, new Vector4[64]);
+            VRCShader.SetGlobalVectorArray(lightVolumeUvwID, new Vector4[192]);
+            VRCShader.SetGlobalVectorArray(lightVolumeColorID, new Vector4[32]);
+            _isInitialized = true;
+        }
+
+        private void Update() {
+            if (!AutoUpdateVolumes) return;
+            UpdateVolumes();
+        }
+
+        // Recalculates dynamic volumes
+        private void UpdateDynamicVolumes() {
+
+            // Searching for enabled volumes
+            _enabledCount = 0;
+            _additiveCount = 0;
+            int maxLength = Mathf.Min(LightVolumeInstances.Length, 32);
+            for (int i = 0; i < maxLength; i++) {
+                LightVolumeInstance instance = LightVolumeInstances[i];
+                if (instance != null && instance.gameObject.activeInHierarchy) {
+#if UNITY_EDITOR
+                    instance.UpdateRotation();
+#else
+                    if (instance.IsDynamic) instance.UpdateRotation();
+#endif
+                    if (instance.IsAdditive) _additiveCount++;
+                    _enabledIDs[_enabledCount] = i;
+                    _enabledCount++;
+                }
+            }
+
+            // Initializing required arrays
+            _invLocalEdgeSmooth = new Vector4[_enabledCount];
+            _invWorldMatrix = new Matrix4x4[_enabledCount];
+            _colors = new Vector4[_enabledCount];
+            _relativeRotations = new Vector4[_enabledCount * 2];
+            _boundsUvw = new Vector4[_enabledCount * 6];
+
+            // Filling arrays with enabled volumes
+            for (int i = 0; i < _enabledCount; i++) {
+
+                int enabledId = _enabledIDs[i];
+                int i2 = i * 2;
+                int i6 = i * 6;
+
+                LightVolumeInstance instance = LightVolumeInstances[enabledId];
+
+                _invLocalEdgeSmooth[i] = instance.InvLocalEdgeSmoothing;
+                _invWorldMatrix[i] = instance.InvWorldMatrix;
+
+                Vector4 c = instance.Color;
+                c.w = instance.IsRotated ? 1 : 0; // Color alpha stores if volume rotated or not
+                _colors[i] = c;
+
+                _relativeRotations[i2] = instance.RelativeRotationRow0;
+                _relativeRotations[i2 + 1] = instance.RelativeRotationRow1;
+
+                _bounds[0] = instance.BoundsUvwMin0;
+                _bounds[1] = instance.BoundsUvwMax0;
+                _bounds[2] = instance.BoundsUvwMin1;
+                _bounds[3] = instance.BoundsUvwMax1;
+                _bounds[4] = instance.BoundsUvwMin2;
+                _bounds[5] = instance.BoundsUvwMax2;
+
+                Array.Copy(_bounds, 0, _boundsUvw, i6, 6);
+            }
+
+        }
+
+        private void Start() {
+            _isInitialized = false;
+            UpdateVolumes();
+        }
+
+        public void UpdateVolumes() {
+
+            TryInitialize();
+
+            UpdateDynamicVolumes(); // Update dynamic volumes
+
+            if (LightVolumeAtlas == null || _enabledCount == 0) {
+                VRCShader.SetGlobalFloat(lightVolumeEnabledID, 0);
+                return;
+            }
+
+            // 3D texture and it's parameters
+            VRCShader.SetGlobalTexture(lightVolumeID, LightVolumeAtlas);
+
+            // Defines if Light Probes Blending enabled in scene
+            VRCShader.SetGlobalFloat(lightVolumeProbesBlendID, LightProbesBlending ? 1 : 0);
+            VRCShader.SetGlobalFloat(lightVolumeSharpBoundsID, SharpBounds ? 1 : 0);
+
+            // All light volumes Extra Data
+            VRCShader.SetGlobalVectorArray(lightVolumeInvLocalEdgeSmoothID, _invLocalEdgeSmooth);
+            VRCShader.SetGlobalMatrixArray(lightVolumeInvWorldMatrixID, _invWorldMatrix);
+
+            // All light volumes UVW
+            VRCShader.SetGlobalVectorArray(lightVolumeUvwID, _boundsUvw);
+
+            // All light volumes count
+            VRCShader.SetGlobalFloat(lightVolumeCountID, _enabledCount);
+            VRCShader.SetGlobalFloat(lightVolumeAdditiveCountID, _additiveCount);
+            VRCShader.SetGlobalFloat(lightVolumeAdditiveMaxOverdrawID, Mathf.Min(Mathf.Max(AdditiveMaxOverdraw, 0), _additiveCount));
+
+            // Defines if Light Volumes enabled in scene
+            VRCShader.SetGlobalFloat(lightVolumeEnabledID, 1);
+
+            // Volume's relative rotation
+            VRCShader.SetGlobalVectorArray(lightVolumeRotationID, _relativeRotations);
+
+            // Volume's color correction
+            VRCShader.SetGlobalVectorArray(lightVolumeColorID, _colors);
+
+        }
+    }
+}
