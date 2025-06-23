@@ -112,7 +112,7 @@ namespace GIB.VRPG2
                         break;
                     case "d4":
                         roll = Random.Range(1, 5);
-                        break;
+                        break; 
                 }
                 total += roll;
                 diceResults += $"{dicePool[i].String}: {roll}, ";

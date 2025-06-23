@@ -904,6 +904,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnionCity_BackgroundLights (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b6a9a7e8d2eda5a4a955f8f3b16355c2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1446,6 +1451,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnionCity_Park
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 43a2d6472bb60b44e946c9b00be6cfd8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1505,7 +1515,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &736511045
 Transform:
   m_ObjectHideFlags: 0
@@ -1607,37 +1617,37 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ce71574461477b4419709261e44bb4dd,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.597305
+      value: 19.55
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce71574461477b4419709261e44bb4dd,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -40.235027
+      value: -1.79
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce71574461477b4419709261e44bb4dd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.046065
+      value: -62.64
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce71574461477b4419709261e44bb4dd,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce71574461477b4419709261e44bb4dd,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce71574461477b4419709261e44bb4dd,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce71574461477b4419709261e44bb4dd,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ce71574461477b4419709261e44bb4dd,
         type: 3}
@@ -1658,6 +1668,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UnionCity_BackgroundMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ce71574461477b4419709261e44bb4dd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2235,17 +2250,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: da077f1c42480184eb78a476b16c382c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.597305
+      value: -56.26
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da077f1c42480184eb78a476b16c382c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -40.235027
+      value: 0.24
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da077f1c42480184eb78a476b16c382c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.046065
+      value: 14.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da077f1c42480184eb78a476b16c382c,
         type: 3}
@@ -2255,17 +2270,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: da077f1c42480184eb78a476b16c382c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da077f1c42480184eb78a476b16c382c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da077f1c42480184eb78a476b16c382c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da077f1c42480184eb78a476b16c382c,
         type: 3}
@@ -2275,7 +2290,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: da077f1c42480184eb78a476b16c382c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da077f1c42480184eb78a476b16c382c,
         type: 3}
@@ -2286,6 +2301,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UnionCity_ApartmentMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: da077f1c42480184eb78a476b16c382c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2435,6 +2455,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UnionCity_ApartmentLight (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: fea901624585bff48b2aa94649c851ef,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2508,6 +2533,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UnionCity_Streets
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 6b71e812afb3b7f4fa31eefe2410c48e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2722,6 +2752,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UnionCity_Sewers
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bd1aecdae504d5f4c921020523d45e94,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

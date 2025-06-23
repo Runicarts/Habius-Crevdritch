@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: VRPGMenuCaller
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 4805daf567f9cd34aa64e39de443a0e7,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 1ddacca01e6d1464d8b92ae8d672a23f,
     type: 2}
   udonAssembly: 
   assemblyError: 

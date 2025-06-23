@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: Object Boundary Trigger Udon C# Program Asset
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 9d81cd63d0062a548bed575805b601f7,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: e36ef9ba14f3b6147a8e40f8a85a85d6,
     type: 2}
   udonAssembly: 
   assemblyError: 
