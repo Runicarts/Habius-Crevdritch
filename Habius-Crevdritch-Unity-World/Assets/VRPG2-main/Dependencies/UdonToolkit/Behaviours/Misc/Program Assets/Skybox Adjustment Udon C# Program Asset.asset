@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: Skybox Adjustment Udon C# Program Asset
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 15bc984265cac3f42926f10370d6d2bb,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: adb7ee1263669804b9873d93715ad219,
     type: 2}
   udonAssembly: 
   assemblyError: 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: Interact Trigger Udon C# Program Asset
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 3953b5b7c48f0d749a335197d3fe1e53,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 08668486065a1ab468dc436e5a98572e,
     type: 2}
   udonAssembly: 
   assemblyError: 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: VRPGClock
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 557c9ac458db35d498e3e179d64605d6,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: e66c3ef98a2238740a08b737567d2603,
     type: 2}
   udonAssembly: 
   assemblyError: 
