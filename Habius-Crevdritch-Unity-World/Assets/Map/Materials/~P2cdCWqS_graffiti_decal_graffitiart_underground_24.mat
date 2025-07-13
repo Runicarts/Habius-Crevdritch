@@ -319,7 +319,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 052f1fe42218e6b44ba8f8d00ea0fbec, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3214cc6543497a042a3762f3910076c8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Matcap:
@@ -3150,7 +3150,7 @@ Material:
     - m_end_voronoiRandom: 0
     - m_furCategory: 0
     - m_lightingCategory: 0
-    - m_mainCategory: 0
+    - m_mainCategory: 1
     - m_modifierCategory: 0
     - m_renderingCategory: 0
     - m_specialFXCategory: 0
