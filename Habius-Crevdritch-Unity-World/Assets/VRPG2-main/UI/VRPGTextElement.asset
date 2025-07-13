@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: VRPGTextElement
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: 8e7034707e1bda14995ca9197e5e0ddb,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 51c31f64a88a8e34c8de223c6be5fb67,
     type: 2}
   udonAssembly: 
   assemblyError: 
